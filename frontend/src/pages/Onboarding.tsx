@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowRight, CheckCircle2, Scissors } from "lucide-react";
+import { ArrowRight, Scissors } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Logo } from "../components/ui/Logo";
@@ -12,45 +12,77 @@ export default function Onboarding() {
   const [step, setStep] = useState(1);
 
   const isProvider = user?.role === "provider";
+  const firstName = user?.name?.split(" ")[0] || "there";
 
   const studentSteps = [
     {
       icon: "👋",
-      title: "Welcome to Cuts & Braids!",
-      desc: "The fastest way to get groomed on campus. No more waiting, no more DMs.",
+      title: `Hey ${firstName}, welcome!`,
+      desc: "Cuts & Braids is your campus grooming hub. No more waiting around, no more sliding into DMs. Everything lives right here.",
+      tip: null,
     },
     {
       icon: "🔍",
-      title: "Browse & Find",
-      desc: "Search for campus barbers and stylists, check out their verified reviews and availability.",
+      title: "Find your stylist",
+      desc: "Browse verified barbers and hairdressers on campus. Check their ratings, specialties, and real availability — all updated live.",
+      tip: "Pro tip: filter by specialty to find exactly who you need.",
+    },
+    {
+      icon: "📅",
+      title: "Pick a slot",
+      desc: "Every provider has a live calendar. See open slots, pick a time that fits your class schedule, and lock it in instantly.",
+      tip: "Slots go fast — book early to avoid missing out.",
     },
     {
       icon: "⚡",
-      title: "Book Instantly",
-      desc: "Pick an available slot and show up exactly when it's your turn. It's that easy.",
+      title: "Confirm & show up",
+      desc: "Once booked, your appointment is confirmed immediately. No back-and-forth, no double-booking. Just show up and get fresh.",
+      tip: null,
+    },
+    {
+      icon: "🔔",
+      title: "Stay in the loop",
+      desc: "Check your Notifications tab for reminders and updates. Manage, reschedule, or cancel from your Bookings tab anytime.",
+      tip: "You can reschedule up to 2 hours before your appointment.",
     },
   ];
 
   const providerSteps = [
     {
       icon: "✂️",
-      title: "Welcome, Provider!",
-      desc: "Get ready to elevate your campus grooming business and reach more students.",
+      title: `Welcome, ${firstName}!`,
+      desc: "Your Provider dashboard is where you run everything — schedule, bookings, availability. Let's get you set up.",
+      tip: null,
     },
     {
-      icon: "📅",
-      title: "Set Your Schedule",
-      desc: "Use your dashboard to add free slots between classes and manage your availability.",
+      icon: "🗓️",
+      title: "Set your availability",
+      desc: "Open your Provider Portal and add the time slots you're free. Students can only book times you've marked available.",
+      tip: "Update your schedule regularly to keep bookings flowing.",
     },
     {
       icon: "📋",
-      title: "Manage Bookings",
-      desc: "Accept, decline, or reschedule appointments — all in one place.",
+      title: "Manage bookings",
+      desc: "When a student books you, it appears in your dashboard. You can view details, confirm, or reschedule right from there.",
+      tip: null,
+    },
+    {
+      icon: "⭐",
+      title: "Build your reputation",
+      desc: "Every completed session can earn you a review. The higher your rating, the more you show up in student searches.",
+      tip: "Consistency and punctuality = more bookings.",
+    },
+    {
+      icon: "🚀",
+      title: "You're all set!",
+      desc: "Your profile is live and students can already find you. Head to your Provider Portal to add your first available slots.",
+      tip: null,
     },
   ];
 
   const currentSteps = isProvider ? providerSteps : studentSteps;
   const totalSteps = currentSteps.length;
+  const current = currentSteps[step - 1];
 
   const handleNext = () => {
     if (step < totalSteps) {
@@ -80,9 +112,23 @@ export default function Onboarding() {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 xs:px-6 py-10">
-        {/* Step card */}
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 xs:px-6 py-8">
         <div className="w-full max-w-md">
+          {/* Progress bar */}
+          <div className="flex items-center gap-1.5 mb-6 xs:mb-8">
+            {currentSteps.map((_, i) => (
+              <div
+                key={i}
+                className="flex-1 h-1 rounded-full transition-all duration-500"
+                style={{
+                  background: i + 1 <= step
+                    ? "var(--color-brand-green)"
+                    : "rgba(255,255,255,0.08)",
+                }}
+              />
+            ))}
+          </div>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
@@ -90,52 +136,45 @@ export default function Onboarding() {
               animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
               exit={{ opacity: 0, x: -30, filter: "blur(4px)" }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-card-dark border border-white/5 rounded-[2rem] xs:rounded-[2.5rem] p-7 xs:p-10 shadow-2xl text-center flex flex-col items-center gap-5 xs:gap-7"
+              className="bg-card-dark border border-white/5 rounded-[2rem] xs:rounded-[2.5rem] p-6 xs:p-10 shadow-2xl flex flex-col gap-5 xs:gap-7"
             >
-              {/* Emoji icon */}
-              <div className="w-16 h-16 xs:w-20 xs:h-20 bg-brand-green/10 border border-brand-green/20 rounded-2xl xs:rounded-3xl flex items-center justify-center text-3xl xs:text-4xl">
-                {currentSteps[step - 1].icon}
-              </div>
-
-              <div className="flex flex-col gap-2 xs:gap-3">
-                <h2 className="text-2xl xs:text-3xl font-display font-bold tracking-tight">
-                  {currentSteps[step - 1].title}
-                </h2>
-                <p className="text-neutral-400 text-sm xs:text-base leading-relaxed max-w-xs mx-auto">
-                  {currentSteps[step - 1].desc}
+              {/* Icon + step label */}
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 xs:w-16 xs:h-16 bg-brand-green/10 border border-brand-green/20 rounded-2xl flex items-center justify-center text-2xl xs:text-3xl shrink-0">
+                  {current.icon}
+                </div>
+                <p className="text-xs text-neutral-500 font-semibold uppercase tracking-widest">
+                  Step {step} of {totalSteps}
                 </p>
               </div>
 
-              {/* Step dots */}
-              <div className="flex items-center gap-2">
-                {currentSteps.map((_, i) => (
-                  <div
-                    key={i}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      i + 1 === step
-                        ? "bg-brand-green w-6"
-                        : i + 1 < step
-                        ? "bg-brand-green/40 w-2"
-                        : "bg-white/15 w-2"
-                    }`}
-                  />
-                ))}
+              {/* Text */}
+              <div className="flex flex-col gap-2 xs:gap-3">
+                <h2 className="text-xl xs:text-2xl font-display font-bold tracking-tight leading-snug">
+                  {current.title}
+                </h2>
+                <p className="text-neutral-400 text-sm xs:text-base leading-relaxed">
+                  {current.desc}
+                </p>
               </div>
 
+              {/* Tip */}
+              {current.tip && (
+                <div className="bg-brand-green/8 border border-brand-green/15 rounded-xl px-4 py-3 text-xs xs:text-sm text-brand-green leading-relaxed">
+                  💡 {current.tip}
+                </div>
+              )}
+
+              {/* Button */}
               <Button
                 onClick={handleNext}
-                className="w-full h-12 xs:h-14 text-sm xs:text-base font-semibold"
+                className="w-full h-12 xs:h-14 text-sm xs:text-base font-semibold mt-1"
               >
-                {step === totalSteps ? "Get Started" : "Next"}
+                {step === totalSteps ? "Let's go" : "Continue"}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </motion.div>
           </AnimatePresence>
-
-          {/* Progress text */}
-          <p className="text-center text-xs text-neutral-600 mt-5">
-            Step {step} of {totalSteps}
-          </p>
         </div>
       </main>
 

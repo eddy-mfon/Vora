@@ -18,6 +18,7 @@ import ProviderPortal from './pages/ProviderPortal';
 import AdminPortal from './pages/AdminPortal';
 import Notifications from './pages/Notifications';
 import ProviderProfile from './pages/ProviderProfile';
+import Profile from './pages/Profile';
 import { AppProvider } from './context/AppContext';
 
 export default function App() {
@@ -43,7 +44,7 @@ export default function App() {
             <Route path="/provider" element={<ProviderPortal />} />
             <Route path="/provider/:id" element={<ProviderProfile />} />
             <Route path="/admin" element={<AdminPortal />} />
-            <Route path="/profile" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
           
           <Route path="*" element={<Navigate to="/" replace />} />

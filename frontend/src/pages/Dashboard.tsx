@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { useAppContext } from "../context/AppContext";
 
 export default function Dashboard() {
-  const { providers, appointments } = useAppContext();
+  const { providers, appointments, user } = useAppContext();
   const barbers = providers.filter(p => p.type === "barber");
   const hairdressers = providers.filter(p => p.type === "hairdresser");
   
@@ -13,7 +13,7 @@ export default function Dashboard() {
     <div className="flex flex-col gap-8 xs:gap-12 relative max-w-6xl mx-auto">
        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-8 border-b border-white/5">
           <div>
-             <h1 className="text-2xl xs:text-4xl sm:text-5xl font-display font-medium tracking-tight mb-3">Welcome back, Alex.</h1>
+             <h1 className="text-2xl xs:text-4xl sm:text-5xl font-display font-medium tracking-tight mb-3">Welcome back, {user?.name?.split(" ")[0] || "there"}.</h1>
              <p className="text-neutral-400 text-base xs:text-lg">Here's your grooming schedule for the week.</p>
           </div>
           <div className="flex bg-card-dark p-1.5 xs:p-2 rounded-3xl border border-white/5 shadow-xl shrink-0 w-full xs:w-auto justify-around xs:justify-start">

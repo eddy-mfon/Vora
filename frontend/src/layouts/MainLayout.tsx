@@ -1,17 +1,22 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { Logo } from "../components/ui/Logo";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../lib/utils";
-import { Bell, LayoutDashboard, Scissors, Sparkles } from "lucide-react";
+import { Bell, LayoutDashboard, Scissors, Sparkles, CalendarDays } from "lucide-react";
+import { useAppContext } from "../context/AppContext";
 
 export default function MainLayout() {
   const location = useLocation();
+  const { user } = useAppContext();
 
   const navItems = [
     { label: "Home", path: "/dashboard", icon: <LayoutDashboard className="w-3.5 h-3.5" /> },
     { label: "Barbers", path: "/barbers", icon: <Scissors className="w-3.5 h-3.5" /> },
     { label: "Stylists", path: "/hairdressers", icon: <Sparkles className="w-3.5 h-3.5" /> },
+    { label: "Bookings", path: "/appointments", icon: <CalendarDays className="w-3.5 h-3.5" /> },
   ];
+
+  // Get first letter of user's name for avatar fallback
+  const avatarLetter = user?.name?.charAt(0).toUpperCase() || "?";
 
   return (
     <div className="min-h-screen bg-bg-darkest text-white selection:bg-brand-green selection:text-black">
@@ -33,13 +38,14 @@ export default function MainLayout() {
           {/* Primary Navigation */}
           <div className="flex items-center gap-0.5 bg-black/40 p-0.5 rounded-full border border-white/5 mx-1 xs:mx-2 overflow-x-auto no-scrollbar">
             {navItems.map(item => {
-              const isActive = location.pathname.startsWith(item.path);
+              const isActive = location.pathname === item.path ||
+                (item.path !== "/dashboard" && location.pathname.startsWith(item.path));
               return (
                 <Link
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "relative flex items-center gap-1 xs:gap-1.5 px-2 xs:px-3.5 py-1.5 xs:py-2 rounded-full text-[11px] xs:text-sm font-medium transition-colors whitespace-nowrap",
+                    "relative flex items-center gap-1 xs:gap-1.5 px-2 xs:px-3 py-1.5 xs:py-2 rounded-full text-[10px] xs:text-xs font-medium transition-colors whitespace-nowrap",
                     isActive ? "text-white" : "text-neutral-400 hover:text-white"
                   )}
                 >
@@ -51,7 +57,7 @@ export default function MainLayout() {
                     />
                   )}
                   <span className="relative z-10">{item.icon}</span>
-                  <span className="relative z-10">{item.label}</span>
+                  <span className="relative z-10 hidden xs:inline">{item.label}</span>
                 </Link>
               );
             })}
@@ -66,15 +72,15 @@ export default function MainLayout() {
               <Bell className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
               <span className="absolute top-1 right-1.5 w-1.5 h-1.5 rounded-full bg-brand-green border-[2px] border-card-dark" />
             </Link>
+
+            {/* Profile avatar — shows user's initial, links to profile page */}
             <Link
               to="/profile"
-              className="w-7 h-7 xs:w-8 xs:h-8 rounded-full border border-white/10 hover:border-brand-green transition-colors overflow-hidden shrink-0"
+              className="w-7 h-7 xs:w-8 xs:h-8 rounded-full border border-white/10 hover:border-brand-green transition-colors overflow-hidden shrink-0 bg-brand-green/20 flex items-center justify-center"
             >
-              <img
-                src="https://i.pravatar.cc/150?u=current_user"
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
+              <span className="text-brand-green font-bold text-xs xs:text-sm font-display">
+                {avatarLetter}
+              </span>
             </Link>
           </div>
         </motion.nav>
