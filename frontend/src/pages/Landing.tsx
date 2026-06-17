@@ -42,34 +42,34 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-bg-darkest text-white selection:bg-brand-green selection:text-black overflow-x-hidden">
       {/* Premium Header */}
-      <header className="fixed top-0 left-0 w-full z-50 p-4 xs:p-6 bg-bg-darkest/40 backdrop-blur-xl border-b border-white/5 flex items-center justify-between pointer-events-none">
+      <header className="fixed top-0 left-0 w-full z-50 px-3 xs:px-6 py-3 xs:py-4 bg-bg-darkest/40 backdrop-blur-xl border-b border-white/5 flex items-center justify-between pointer-events-none">
         <div className="pointer-events-auto">
           <Logo />
         </div>
-        <div className="pointer-events-auto flex items-center gap-4">
-          <Link to="/login" className="text-sm font-medium text-neutral-400 hover:text-brand-green hover:scale-105 transition-all">Sign In</Link>
+        <div className="pointer-events-auto flex items-center gap-2 xs:gap-4">
+          <Link to="/login" className="text-xs xs:text-sm font-medium text-neutral-400 hover:text-brand-green transition-all">Sign In</Link>
           <Link to="/register">
-            <Button size="sm" className="rounded-xl px-4 py-2 hover:scale-[1.05] transition-transform">Get Started</Button>
+            <Button size="sm" className="rounded-xl px-3 xs:px-4 py-2 text-xs xs:text-sm">Get Started</Button>
           </Link>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="pt-28 xs:pt-32 pb-24 px-4 xs:px-6 max-w-7xl mx-auto flex flex-col gap-24 xs:gap-36">
+      <main className="pt-20 xs:pt-28 pb-16 xs:pb-24 px-3 xs:px-6 max-w-7xl mx-auto flex flex-col gap-16 xs:gap-24">
         
         {/* HERO SPLIT GRID SECTION */}
-        <section className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[75vh]">
+        <section className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 xs:gap-12 items-center min-h-[65vh]">
           {/* Left Column */}
           <div className="lg:col-span-7 flex flex-col items-start relative z-10 w-full">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-brand-green/10 text-brand-green border border-brand-green/20 rounded-full text-xs font-bold uppercase tracking-wider mb-6 hover:bg-brand-green/20 transition-colors">
-              <Sparkles className="w-3.5 h-3.5" /> Campus grooming, automated
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-brand-green/10 text-brand-green border border-brand-green/20 rounded-full text-[10px] xs:text-xs font-bold uppercase tracking-wider mb-4 xs:mb-6">
+              <Sparkles className="w-3 h-3 xs:w-3.5 xs:h-3.5" /> Campus grooming, automated
             </div>
             
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl xs:text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-display font-extrabold tracking-tight leading-[0.95] mb-6 text-white text-left"
+              className="text-[2rem] xs:text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-display font-extrabold tracking-tight leading-[1] mb-4 xs:mb-6 text-white text-left"
             >
               Your favorite look,<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-white to-neutral-400">
@@ -81,24 +81,24 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-base xs:text-lg sm:text-xl font-normal text-neutral-400 mb-8 xs:mb-10 max-w-xl leading-relaxed"
+              className="text-sm xs:text-lg sm:text-xl font-normal text-neutral-400 mb-6 xs:mb-10 max-w-xl leading-relaxed"
             >
-              Check availability, select your favorite campus barber or stylist, and skip the waiting line entirely. Styled by students, for students.
+              Check availability, select your favorite campus barber or stylist, and skip the waiting line entirely.
             </motion.p>
             
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex flex-col xs:flex-row items-center gap-4 w-full xs:w-auto"
+              className="flex flex-col xs:flex-row items-stretch xs:items-center gap-3 w-full xs:w-auto"
             >
               <Link to="/register" className="w-full xs:w-auto">
-                 <Button className="bg-brand-green hover:bg-brand-green-hover hover:scale-[1.05] transition-all text-black font-semibold h-14 rounded-2xl px-8 text-base shadow-[0_0_30px_rgba(184,255,90,0.25)] w-full">
+                 <Button className="bg-brand-green hover:bg-brand-green-hover text-black font-semibold h-12 xs:h-14 rounded-2xl px-6 xs:px-8 text-sm xs:text-base shadow-[0_0_30px_rgba(184,255,90,0.25)] w-full">
                    Book Appointment <ArrowRight className="w-4 h-4 ml-2" />
                  </Button>
               </Link>
               <Link to="/dashboard" className="w-full xs:w-auto">
-                 <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 hover:scale-[1.05] transition-all h-14 rounded-2xl px-8 text-base font-semibold w-full">
+                 <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 h-12 xs:h-14 rounded-2xl px-6 xs:px-8 text-sm xs:text-base font-semibold w-full">
                    View Schedules
                  </Button>
               </Link>
@@ -174,24 +174,24 @@ export default function Landing() {
         </section>
 
         {/* QUICK STATS BAR */}
-        <section className="bg-card-dark border border-white/5 p-8 rounded-[2rem] shadow-xl relative overflow-hidden">
+        <section className="bg-card-dark border border-white/5 p-5 xs:p-8 rounded-[1.5rem] xs:rounded-[2rem] shadow-xl relative overflow-hidden">
            <div className="absolute inset-0 bg-gradient-to-r from-brand-green/5 to-transparent pointer-events-none" />
-           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center relative z-10">
+           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 xs:gap-8 text-center relative z-10">
               <div className="flex flex-col gap-1">
-                 <p className="text-3xl xs:text-4xl md:text-5xl font-display font-extrabold text-brand-green">1.5k+</p>
-                 <p className="text-xs xs:text-sm text-neutral-400 font-medium uppercase tracking-wider">Bookings Scheduled</p>
+                 <p className="text-2xl xs:text-4xl md:text-5xl font-display font-extrabold text-brand-green">1.5k+</p>
+                 <p className="text-[10px] xs:text-sm text-neutral-400 font-medium uppercase tracking-wider">Bookings</p>
               </div>
               <div className="flex flex-col gap-1 border-l border-white/5">
-                 <p className="text-3xl xs:text-4xl md:text-5xl font-display font-extrabold text-white">30+</p>
-                 <p className="text-xs xs:text-sm text-neutral-400 font-medium uppercase tracking-wider">Active Campus Stylists</p>
+                 <p className="text-2xl xs:text-4xl md:text-5xl font-display font-extrabold text-white">30+</p>
+                 <p className="text-[10px] xs:text-sm text-neutral-400 font-medium uppercase tracking-wider">Stylists</p>
               </div>
               <div className="flex flex-col gap-1 border-l border-white/5">
-                 <p className="text-3xl xs:text-4xl md:text-5xl font-display font-extrabold text-white">100%</p>
-                 <p className="text-xs xs:text-sm text-neutral-400 font-medium uppercase tracking-wider">No-line Guarantee</p>
+                 <p className="text-2xl xs:text-4xl md:text-5xl font-display font-extrabold text-white">100%</p>
+                 <p className="text-[10px] xs:text-sm text-neutral-400 font-medium uppercase tracking-wider">No Wait</p>
               </div>
               <div className="flex flex-col gap-1 border-l border-white/5">
-                 <p className="text-3xl xs:text-4xl md:text-5xl font-display font-extrabold text-brand-green">4.9★</p>
-                 <p className="text-xs xs:text-sm text-neutral-400 font-medium uppercase tracking-wider">Average Rating</p>
+                 <p className="text-2xl xs:text-4xl md:text-5xl font-display font-extrabold text-brand-green">4.9★</p>
+                 <p className="text-[10px] xs:text-sm text-neutral-400 font-medium uppercase tracking-wider">Avg Rating</p>
               </div>
            </div>
         </section>

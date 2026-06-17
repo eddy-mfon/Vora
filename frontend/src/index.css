@@ -5,6 +5,8 @@
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
 
+  /* iPod Touch 6/7 is 320px wide */
+  --breakpoint-2xs: 320px;
   --breakpoint-xs: 400px;
 
   --color-brand-green: #B8FF5A;
@@ -21,15 +23,63 @@
 }
 
 @layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   body {
     @apply bg-bg-darkest text-white font-sans antialiased selection:bg-brand-green selection:text-black;
+    overflow-x: hidden;
+    /* Smooth font rendering on iOS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Prevent text overflow on small screens */
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Better button/input tap targets on mobile */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Page transition smoothness */
+@layer utilities {
+  .page-transition {
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .smooth-transform {
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -50,6 +100,12 @@
   display: none;
 }
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Momentum scrolling on iOS */
+.scroll-smooth-ios {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
