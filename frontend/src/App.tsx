@@ -30,8 +30,9 @@ export default function App() {
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/onboarding" element={<Onboarding />} />
           </Route>
+
+          <Route path="/onboarding" element={<Onboarding />} />
 
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
