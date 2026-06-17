@@ -131,6 +131,12 @@ export default function Register() {
                 </p>
               </div>
 
+              {error && (
+                <div className="mb-2 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                  {error}
+                </div>
+              )}
+
               <form className="space-y-4" onSubmit={handleRegister}>
                 <Input
                   type="text"

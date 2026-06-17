@@ -43,7 +43,8 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [user, setUser] = useState<any>(null);
+  // Restore previous session from localStorage on first load
+  const [user, setUser] = useState<any>(() => api.getSession());
 
   const refreshProviders = async () => {
     try {
@@ -69,7 +70,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (userData: any) => setUser(userData);
-  const logout = () => setUser(null);
+
+  const logout = () => {
+    api.logout();
+    setUser(null);
+  };
 
   const addAppointment = async (appointment: Appointment) => {
     await api.createAppointment(appointment);
@@ -87,16 +92,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ 
-      providers, 
-      appointments, 
+    <AppContext.Provider value={{
+      providers,
+      appointments,
       user,
       login,
       logout,
-      refreshProviders, 
-      addAppointment, 
-      cancelAppointment, 
-      rescheduleAppointment 
+      refreshProviders,
+      addAppointment,
+      cancelAppointment,
+      rescheduleAppointment,
     }}>
       {children}
     </AppContext.Provider>

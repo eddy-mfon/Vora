@@ -20,7 +20,7 @@ export default function Login() {
     const data = Object.fromEntries(formData.entries());
 
     try {
-      const res = await api.login({ email: data["Email"], password: data["Password"] });
+      const res = await api.login({ email: data["Email"] as string, password: data["Password"] as string });
       login(res.user);
       
       if (res.user.role === "provider") {
@@ -120,6 +120,12 @@ export default function Login() {
                   Welcome back. Please enter your details.
                 </p>
               </div>
+
+              {error && (
+                <div className="mb-2 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                  {error}
+                </div>
+              )}
 
               <form className="space-y-4" onSubmit={handleLogin}>
                 <Input
