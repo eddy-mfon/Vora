@@ -1,3 +1,22 @@
+export const notifications = [
+  {
+    id: "1",
+    type: "success",
+    title: "Appointment Confirmed",
+    message: "Your appointment has been confirmed for tomorrow at 10:00 AM.",
+    time: "2 hours ago",
+    unread: true,
+  },
+  {
+    id: "2",
+    type: "info",
+    title: "Reminder",
+    message: "You have an upcoming appointment in 24 hours. Don't forget!",
+    time: "Yesterday",
+    unread: false,
+  },
+];
+
 export const generateSchedule = () => {
   const schedule = [];
   const today = new Date();

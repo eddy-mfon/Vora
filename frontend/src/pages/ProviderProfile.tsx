@@ -32,6 +32,7 @@ export default function ProviderProfile() {
     const time = activeDateSlots.find(s => s.id === selectedSlot)?.time || "";
     addAppointment({
       id: Math.random().toString(36).substring(7),
+      providerId: provider.id,
       providerName: provider.name,
       service: provider.specialty,
       date: schedule[selectedDate].date,
