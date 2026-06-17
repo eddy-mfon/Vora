@@ -1,9 +1,10 @@
-import { motion } from "motion/react";
-import { Outlet } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+import { Outlet, useLocation } from "react-router-dom";
 import { Logo } from "../components/ui/Logo";
 import { Scissors, Sparkles, Fan, Armchair } from "lucide-react";
 
 export default function AuthLayout() {
+  const location = useLocation();
   return (
     <div className="flex min-h-screen bg-bg-darkest overflow-hidden selection:bg-brand-green selection:text-black">
       {/* Background Ambient Effects */}
@@ -130,7 +131,18 @@ export default function AuthLayout() {
             <div className="lg:hidden mb-12 self-start pl-2">
                 <Logo />
             </div>
-            <Outlet />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={location.pathname}
+                initial={{ opacity: 0, x: 15, filter: "blur(4px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, x: -15, filter: "blur(4px)" }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full flex flex-col items-center"
+              >
+                <Outlet />
+              </motion.div>
+            </AnimatePresence>
         </div>
       </div>
     </div>

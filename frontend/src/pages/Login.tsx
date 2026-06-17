@@ -4,17 +4,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { useState, FormEvent } from "react";
+import { api } from "../lib/api";
+import { useAppContext } from "../context/AppContext";
 
 export default function Login() {
   const navigate = useNavigate();
   const [role, setRole] = useState<"student" | "provider" | null>(null);
+  const { login } = useAppContext();
+  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (role === "provider") {
-      navigate("/provider");
-    } else {
-      navigate("/dashboard");
+    setError(null);
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await api.login({ email: data["Email"], password: data["Password"] });
+      login(res.user);
+      
+      if (res.user.role === "provider") {
+        navigate("/provider");
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
@@ -39,9 +54,9 @@ export default function Login() {
         </div>
       </motion.div>
 
-      <div className="relative rounded-[2.5rem] bg-card-dark p-8 sm:p-10 shadow-2xl border border-white/[0.04] backdrop-blur-2xl overflow-hidden min-h-[400px] flex flex-col justify-center">
+      <div className="relative rounded-3xl xs:rounded-[2.5rem] bg-card-dark p-5 xs:p-8 sm:p-10 shadow-2xl border border-white/[0.04] backdrop-blur-2xl overflow-hidden min-h-[400px] flex flex-col justify-center">
         {/* Inner subtle glow */}
-        <div className="absolute inset-0 rounded-[2.5rem] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] pointer-events-none" />
+        <div className="absolute inset-0 rounded-3xl xs:rounded-[2.5rem] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] pointer-events-none" />
 
         <AnimatePresence mode="wait">
           {!role ? (
@@ -59,12 +74,12 @@ export default function Login() {
 
               <button 
                 onClick={() => setRole("student")}
-                className="group flex items-center gap-4 p-6 rounded-2xl border border-white/5 bg-bg-darkest hover:border-brand-green/50 hover:bg-white/5 transition-all w-full text-left"
+                className="group flex flex-col xs:flex-row items-center xs:items-start text-center xs:text-left gap-3 xs:gap-4 p-4 xs:p-6 rounded-2xl border border-white/5 bg-bg-darkest hover:border-brand-green/50 hover:bg-white/5 hover:scale-[1.01] transition-all w-full"
               >
-                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand-green/10 transition-colors">
+                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand-green/10 transition-colors shrink-0">
                   <User className="w-6 h-6 text-white group-hover:text-brand-green transition-colors" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <h3 className="font-semibold text-lg">Student</h3>
                   <p className="text-sm text-neutral-400">Book appointments & manage schedule</p>
                 </div>
@@ -72,12 +87,12 @@ export default function Login() {
 
               <button 
                 onClick={() => setRole("provider")}
-                className="group flex items-center gap-4 p-6 rounded-2xl border border-white/5 bg-bg-darkest hover:border-blue-400/50 hover:bg-white/5 transition-all w-full text-left"
+                className="group flex flex-col xs:flex-row items-center xs:items-start text-center xs:text-left gap-3 xs:gap-4 p-4 xs:p-6 rounded-2xl border border-white/5 bg-bg-darkest hover:border-blue-400/50 hover:bg-white/5 hover:scale-[1.01] transition-all w-full"
               >
-                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-blue-500/10 transition-colors">
-                  <Scissors className="w-6 h-6 text-white group-hover:text-blue-400 transition-colors" />
+                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-blue-500/10 transition-colors shrink-0">
+                  <Scissors className="w-6 h-6 text-white group-hover:bg-blue-500/10 transition-colors" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <h3 className="font-semibold text-lg">Provider</h3>
                   <p className="text-sm text-neutral-400">Manage bookings & availability</p>
                 </div>
@@ -122,7 +137,7 @@ export default function Login() {
                   autoComplete="current-password"
                 />
 
-                <div className="flex items-center justify-between mt-6 text-sm py-2">
+                <div className="flex flex-wrap gap-3 items-center justify-between mt-6 text-sm py-2">
                   <label className="flex items-center gap-2 cursor-pointer group">
                     <div className="relative flex items-center justify-center w-5 h-5 rounded bg-white/5 border border-white/10 group-hover:border-white/30 transition-colors">
                       <input type="checkbox" className="absolute opacity-0 w-full h-full cursor-pointer peer" />
@@ -150,7 +165,7 @@ export default function Login() {
                     <div className="flex-1 h-px bg-white/[0.04]" />
                   </div>
 
-                  <div className="mt-6 flex gap-4">
+                  <div className="mt-6 flex flex-col xs:flex-row gap-3 xs:gap-4">
                     <Button variant="outline" className="w-full h-12 rounded-2xl gap-2 font-medium">
                       <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
                          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>

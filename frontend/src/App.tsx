@@ -8,6 +8,7 @@ import AuthLayout from './layouts/AuthLayout';
 import MainLayout from './layouts/MainLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Onboarding from './pages/Onboarding';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Barbers from './pages/Barbers';
@@ -29,6 +30,7 @@ export default function App() {
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/onboarding" element={<Onboarding />} />
           </Route>
 
           <Route element={<MainLayout />}>

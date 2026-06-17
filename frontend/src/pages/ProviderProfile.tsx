@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { providers, generateSchedule } from "../lib/mock";
+import { generateSchedule } from "../lib/mock";
 import { ArrowLeft, Star, Calendar as CalendarIcon, Clock, CheckCircle2 } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { motion, AnimatePresence } from "motion/react";
@@ -10,10 +10,9 @@ import { useAppContext } from "../context/AppContext";
 export default function ProviderProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { providers, addAppointment } = useAppContext();
   const provider = providers.find(p => p.id === id) || providers[0];
   
-  const { addAppointment } = useAppContext();
-
   // Memoize schedule so it doesn't regenerate on every render
   const schedule = useMemo(() => generateSchedule(), []);
   
@@ -81,9 +80,9 @@ export default function ProviderProfile() {
                className="grid grid-cols-1 lg:grid-cols-3 gap-8"
             >
               <div className="lg:col-span-2 flex flex-col gap-8">
-                 <div className="bg-card-dark p-8 rounded-[2.5rem] border border-white/5 shadow-2xl">
-                    <div className="flex items-center justify-between mb-8">
-                       <h2 className="text-2xl font-display font-medium flex items-center gap-3">
+                 <div className="bg-card-dark p-4 xs:p-8 rounded-3xl xs:rounded-[2.5rem] border border-white/5 shadow-2xl">
+                    <div className="flex items-center justify-between mb-6 xs:mb-8">
+                       <h2 className="text-xl xs:text-2xl font-display font-medium flex items-center gap-3">
                          <CalendarIcon className="w-6 h-6 text-brand-green" />
                          Select Date & Time
                        </h2>
@@ -103,7 +102,7 @@ export default function ProviderProfile() {
                              key={idx}
                              onClick={() => { setSelectedDate(idx); setSelectedSlot(null); }}
                              className={cn(
-                               "flex flex-col items-center justify-center min-w-[4.5rem] h-24 rounded-3xl border transition-all duration-300 relative",
+                               "flex flex-col items-center justify-center min-w-[4rem] xs:min-w-[4.5rem] h-20 xs:h-24 rounded-2xl xs:rounded-3xl border transition-all duration-300 relative",
                                isSelected 
                                  ? "bg-brand-green border-brand-green text-black scale-105 shadow-[0_0_20px_rgba(184,255,90,0.2)]" 
                                  : "bg-bg-darkest border-white/10 text-neutral-400 hover:border-white/30",
@@ -113,7 +112,7 @@ export default function ProviderProfile() {
                              <span className={cn("text-xs uppercase font-semibold tracking-wider mb-1", isSelected ? "text-black/70" : "text-neutral-500")}>
                                {dayName}
                              </span>
-                             <span className={cn("text-2xl font-display font-bold", isSelected ? "text-black" : "text-white")}>
+                             <span className={cn("text-xl xs:text-2xl font-display font-bold", isSelected ? "text-black" : "text-white")}>
                                {dayNum}
                              </span>
                              {hasSlots && (
@@ -150,10 +149,10 @@ export default function ProviderProfile() {
                                key={slot.id}
                                onClick={() => setSelectedSlot(slot.id)}
                                className={cn(
-                                 "py-4 rounded-2xl border text-sm font-medium transition-all duration-300",
+                                 "py-3 xs:py-4 rounded-xl xs:rounded-2xl border text-xs xs:text-sm font-medium transition-all duration-300",
                                  selectedSlot === slot.id
                                    ? "bg-white text-black border-white scale-[1.02] shadow-[0_0_15px_rgba(255,255,255,0.15)]"
-                                   : "bg-bg-darkest border-white/10 hover:border-white/30 text-white"
+                                   : "bg-bg-darkest border-white/10 hover:border-white/30 hover:scale-[1.02] text-white"
                                )}
                              >
                                {slot.time}
@@ -171,8 +170,8 @@ export default function ProviderProfile() {
               </div>
 
               <div className="lg:col-span-1">
-                 <div className="bg-card-dark p-8 rounded-[2.5rem] border border-white/5 sticky top-32">
-                    <h3 className="text-xl font-display font-semibold mb-6">Booking Summary</h3>
+                 <div className="bg-card-dark p-5 xs:p-8 rounded-3xl xs:rounded-[2.5rem] border border-white/5 sticky top-32">
+                    <h3 className="text-lg xs:text-xl font-display font-semibold mb-4 xs:mb-6">Booking Summary</h3>
                     
                     <div className="flex flex-col gap-4 mb-8">
                       <div className="flex justify-between py-3 border-b border-white/5">
@@ -215,9 +214,9 @@ export default function ProviderProfile() {
                exit={{ opacity: 0, x: -20 }}
                className="max-w-2xl mx-auto w-full"
              >
-                <div className="bg-card-dark p-8 md:p-12 rounded-[3.5rem] border border-white/5 text-center">
-                   <h2 className="text-3xl font-display font-semibold mb-2">Review Appointment</h2>
-                   <p className="text-neutral-400 mb-10">Please confirm your booking details below.</p>
+                <div className="bg-card-dark p-5 xs:p-8 md:p-12 rounded-[2rem] xs:rounded-[3.5rem] border border-white/5 text-center">
+                   <h2 className="text-2xl xs:text-3xl font-display font-semibold mb-2">Review Appointment</h2>
+                   <p className="text-neutral-400 text-sm xs:text-base mb-6 xs:mb-10">Please confirm your booking details below.</p>
                    
                    <div className="bg-bg-darkest p-6 rounded-3xl border border-white/5 mb-10 text-left flex flex-col sm:flex-row items-center gap-6">
                       <img src={provider.image} className="w-20 h-20 rounded-2xl object-cover" alt="" />
@@ -247,12 +246,12 @@ export default function ProviderProfile() {
                animate={{ opacity: 1, scale: 1 }}
                className="max-w-xl mx-auto w-full"
              >
-                <div className="bg-brand-green text-black p-10 md:p-14 rounded-[3.5rem] text-center flex flex-col items-center">
-                   <div className="w-20 h-20 bg-black text-brand-green rounded-full flex items-center justify-center mb-8 shadow-xl">
-                      <CheckCircle2 className="w-10 h-10" />
+                <div className="bg-brand-green text-black p-6 xs:p-10 md:p-14 rounded-[2rem] xs:rounded-[3.5rem] text-center flex flex-col items-center">
+                   <div className="w-16 h-16 xs:w-20 xs:h-20 bg-black text-brand-green rounded-full flex items-center justify-center mb-6 xs:mb-8 shadow-xl">
+                      <CheckCircle2 className="w-8 h-8 xs:w-10 xs:h-10" />
                    </div>
-                   <h2 className="text-4xl font-display font-bold mb-4 tracking-tight">You're all set!</h2>
-                   <p className="font-medium opacity-80 mb-10 text-lg leading-relaxed">
+                   <h2 className="text-3xl xs:text-4xl font-display font-bold mb-3 xs:mb-4 tracking-tight">You're all set!</h2>
+                   <p className="font-medium opacity-80 mb-8 xs:mb-10 text-base xs:text-lg leading-relaxed">
                      Your appointment with {provider.name} is confirmed for {schedule[selectedDate].date} at {activeDateSlots.find(s => s.id === selectedSlot)?.time}.
                    </p>
                    <Link to="/appointments" className="w-full">
